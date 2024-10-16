@@ -83,7 +83,7 @@ public class GeneralSystem {
                 companyStagingManager.addHomeRequestInBuffer(homeRequest);
                 actions.add(new Action(ActionType.NEW_REQUEST, this.timeNow +
                         companyStagingManager.getHomeDevice(sourceOrDeviceNum).getTimeNextHomeRequest(), sourceOrDeviceNum));
-                if (companySelectionManager.findFirstFreeProcessingDevice() != -1) {
+                if (companySelectionManager.findFreeProcessingDevice() != -1) {
                         actions.add(new Action(ActionType.REQUEST_OUT_BUFFER, this.timeNow));
                 }
                 statisticController.addHomeRequest(sourceOrDeviceNum);
@@ -91,7 +91,7 @@ public class GeneralSystem {
             }
         }
         else if (actionType == ActionType.REQUEST_OUT_BUFFER) {
-            int freeDeviceID = companySelectionManager.findFirstFreeProcessingDevice();
+            int freeDeviceID = companySelectionManager.findFreeProcessingDevice();
             if (!buffer.isEmpty()) {
                 ProcessingDevice currentProcessingDevice = companySelectionManager.getProcessingDevice(freeDeviceID);
 

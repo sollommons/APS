@@ -10,6 +10,7 @@ public class CompanySelectionManager {
 
     private final Buffer buffer;
     private final int processingDeviceCount;
+    private int tempDeviceId;
     private ArrayList<ProcessingDevice> processingDevices;
 
     public CompanySelectionManager(Buffer buffer,
@@ -19,6 +20,7 @@ public class CompanySelectionManager {
         this.buffer = buffer;
         this.processingDeviceCount = processingDeviceCount;
         initArrayOfDevice(minTime, maxTime);
+        this.tempDeviceId = 0;
     }
 
     private void initArrayOfDevice(double minTime, double maxTime) {
@@ -36,9 +38,16 @@ public class CompanySelectionManager {
         return this.processingDevices.get(i);
     }
 
-    public int findFirstFreeProcessingDevice() {
-        for (int i = 0; i < processingDeviceCount; i++) {
+    public int findFreeProcessingDevice() {
+        for (int i = tempDeviceId; i < processingDeviceCount; i++) {
             if (this.getProcessingDevice(i).isFree()) {
+                tempDeviceId = i;
+                return this.getProcessingDevice(i).getDeviceNum();
+            }
+        }
+        for (int i = 0; i < tempDeviceId; i++) {
+            if (this.getProcessingDevice(i).isFree()) {
+                tempDeviceId = i;
                 return this.getProcessingDevice(i).getDeviceNum();
             }
         }
