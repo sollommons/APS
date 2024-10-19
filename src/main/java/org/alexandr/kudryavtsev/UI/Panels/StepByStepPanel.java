@@ -99,7 +99,7 @@ public class StepByStepPanel extends JPanel {
     public void print(Graphics graphics)
     {
         graphics.setFont(front1);
-        graphics.clearRect(0, 0, 1000, 400);
+        graphics.clearRect(0, 0, 1000, 1000);
         this.paint(graphics);
         List<ProcessingDevice> d = generalSystem.getCompanySelectionManager().getProcessingDevices();
         Buffer buffer1 = generalSystem.getBuffer();
