@@ -100,7 +100,7 @@ public class GeneralSystem {
                         "\nFreeDevice: " + currentProcessingDevice.getDeviceNum() + "\n");*/
 
                 companySelectionManager.getProcessingDevices().set(freeDeviceID, null);
-                HomeRequest homeRequest = companySelectionManager.getHomeRequest();
+                HomeRequest homeRequest = companySelectionManager.getHomeRequest(freeDeviceID);
                 actions.add(new Action(ActionType.REQUEST_COMPLETE, this.timeNow + currentProcessingDevice.setHomeRequest(homeRequest, this.timeNow), currentProcessingDevice.getDeviceNum()));
                 companySelectionManager.getProcessingDevices().set(freeDeviceID, currentProcessingDevice);
                 actions.sort(Action::compareTo);

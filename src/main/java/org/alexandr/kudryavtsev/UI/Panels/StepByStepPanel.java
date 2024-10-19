@@ -142,9 +142,6 @@ public class StepByStepPanel extends JPanel {
             if (buffer1.getOldestRequestIndex() == i) {
                 graphics.drawString("O", 390, 25 + (i + 1) * 50);
             }
-            if (buffer1.getLastRequestIndex() == i) {
-                graphics.drawString("L", 390, 35 + (i + 1) * 50);
-            }
             if (buffer1.getFirstFreeIndex() == i) {
                 graphics.drawString("FF", 390, 30 + (i + 1)* 50);
             }
