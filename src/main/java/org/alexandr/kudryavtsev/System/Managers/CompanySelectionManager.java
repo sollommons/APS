@@ -74,8 +74,9 @@ public class CompanySelectionManager {
             answer =  buffer.findFirstPriorityRequest();
             tempHomeDeviceId = answer.getHomeDeviceNum();
             processingHomeDevicesId.put(freeDeviceId,tempHomeDeviceId);
+
         }
-        buffer.getBuffer().set(buffer.findFirstPriorityRequestId(), null);
+        buffer.getBuffer().set(buffer.findBufferIdWithHomeRequest(answer.getHomeDeviceNum()), null);
         buffer.setNewFirstFreeIndex();
         buffer.setNewOldestRequestIndex();
         return answer;

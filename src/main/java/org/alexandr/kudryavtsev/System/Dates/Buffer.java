@@ -19,7 +19,7 @@ public class Buffer {
         initBuffer(this.sizeBuffer);
         firstFreeIndex = 0;
         oldestRequestIndex = -1;
-        lastRequestIndex = -1;
+        //lastRequestIndex = -1;
     }
 
     private void initBuffer(int size) {
@@ -63,17 +63,17 @@ public class Buffer {
         this.firstFreeIndex = -1;
     }
 
-    public void setNewLastRequestIndex() {
-        int answerIndex = -1;
-        double temp = -1.0;
-        for (int i = 0; i < sizeBuffer; i++) {
-            if (buffer.get(i) != null && (temp == -1.0 || temp < buffer.get(i).getGeneratedTime())) {
-                temp = buffer.get(i).getGeneratedTime();
-                answerIndex = i;
-            }
-        }
-        this.lastRequestIndex = answerIndex;
-    }
+//    public void setNewLastRequestIndex() {
+//        int answerIndex = -1;
+//        double temp = -1.0;
+//        for (int i = 0; i < sizeBuffer; i++) {
+//            if (buffer.get(i) != null && (temp == -1.0 || temp < buffer.get(i).getGeneratedTime())) {
+//                temp = buffer.get(i).getGeneratedTime();
+//                answerIndex = i;
+//            }
+//        }
+//        this.lastRequestIndex = answerIndex;
+//    }
 
     public HomeRequest findHomeRequestWithHomeDeviceId (int index) {
         for (int i = 0; i < sizeBuffer; i++) {
@@ -82,6 +82,15 @@ public class Buffer {
             }
         }
         return null;
+    }
+
+    public int findBufferIdWithHomeRequest (int index) {
+        for (int i = 0; i < sizeBuffer; i++) {
+            if (buffer.get(i) != null && buffer.get(i).getHomeDeviceNum() == index) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public HomeRequest findFirstPriorityRequest() {
