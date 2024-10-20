@@ -81,13 +81,4 @@ public class CompanySelectionManager {
         buffer.setNewOldestRequestIndex();
         return answer;
     }
-
-//        HomeRequest answer = buffer.getBuffer().get(buffer.getLastRequestIndex());
-//        buffer.getBuffer().set(buffer.getLastRequestIndex(), null);
-//        buffer.setNewLastRequestIndex();
-//        buffer.setNewFirstFreeIndex();
-//        buffer.setNewOldestRequestIndex();
-//        return answer;
-//    }
-
 }

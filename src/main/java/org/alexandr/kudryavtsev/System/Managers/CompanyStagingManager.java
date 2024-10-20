@@ -37,12 +37,10 @@ public class CompanyStagingManager {
             statisticController.cancelHomeRequest(homeRequest1.getHomeDeviceNum(),
                     homeRequest.getGeneratedTime() - homeRequest1.getGeneratedTime());
             buffer.getBuffer().set(buffer.getOldestRequestIndex(), homeRequest);
-            //buffer.setLastRequestIndex(buffer.getOldestRequestIndex());
             buffer.setNewOldestRequestIndex();
             return;
         }
         buffer.getBuffer().set(buffer.getFirstFreeIndex(), homeRequest);
-        //buffer.setLastRequestIndex(buffer.getFirstFreeIndex());
         buffer.setNewOldestRequestIndex();
         buffer.setNewFirstFreeIndex();
     }

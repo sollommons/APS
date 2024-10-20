@@ -75,11 +75,6 @@ public class GeneralSystem {
             if (statisticController.getCountSubmittedRequest() < statisticController.getCountRequiredRequest()) {
 
                 HomeRequest homeRequest = companyStagingManager.getHomeDevice(sourceOrDeviceNum).getNewHomeRequest(this.timeNow);
-
-/*                System.out.println("\nType: " + action.getActionType() +
-                        "\nTime: " + action.getActionTime() +
-                        "\nSourceRequestNum: " + homeRequest.getHomeDeviceNum() + "." + homeRequest.getRequestNum() + "\n");*/
-
                 companyStagingManager.addHomeRequestInBuffer(homeRequest);
                 actions.add(new Action(ActionType.NEW_REQUEST, this.timeNow +
                         companyStagingManager.getHomeDevice(sourceOrDeviceNum).getTimeNextHomeRequest(), sourceOrDeviceNum));
@@ -94,11 +89,6 @@ public class GeneralSystem {
             int freeDeviceID = companySelectionManager.findFreeProcessingDevice();
             if (!buffer.isEmpty()) {
                 ProcessingDevice currentProcessingDevice = companySelectionManager.getProcessingDevice(freeDeviceID);
-
-/*                System.out.println("\nType: " + action.getActionType() +
-                        "\nTime: " + action.getActionTime() +
-                        "\nFreeDevice: " + currentProcessingDevice.getDeviceNum() + "\n");*/
-
                 companySelectionManager.getProcessingDevices().set(freeDeviceID, null);
                 HomeRequest homeRequest = companySelectionManager.getHomeRequest(freeDeviceID);
                 actions.add(new Action(ActionType.REQUEST_COMPLETE, this.timeNow + currentProcessingDevice.setHomeRequest(homeRequest, this.timeNow), currentProcessingDevice.getDeviceNum()));
@@ -108,12 +98,6 @@ public class GeneralSystem {
         }
         else if (actionType == ActionType.REQUEST_COMPLETE) {
             ProcessingDevice currentProcessingDevice = companySelectionManager.getProcessingDevice(sourceOrDeviceNum);
-/*
-            System.out.println("\nType: " + action.getActionType() +
-                    "\nTime: " + action.getActionTime() +
-                    "\nDeviceAndRequest: " + currentProcessingDevice.getDeviceNum() + " "
-                    + currentProcessingDevice.getHomeRequestNow().getHomeDeviceNum() + "." + currentProcessingDevice.getHomeRequestNow().getRequestNum() + "\n");*/
-
             companySelectionManager.getProcessingDevices().set(sourceOrDeviceNum, null);
             statisticController.completeHomeRequest(currentProcessingDevice.getHomeRequestNow().getHomeDeviceNum(), sourceOrDeviceNum,
                     this.timeNow - currentProcessingDevice.getHomeRequestNow().getGeneratedTime(),
