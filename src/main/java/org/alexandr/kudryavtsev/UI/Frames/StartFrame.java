@@ -38,9 +38,9 @@ public class StartFrame extends BaseFrame{
         label3.setPreferredSize(new Dimension(200, 40));
         JLabel label4 = new JLabel("Размер буффера");
         label4.setPreferredSize(new Dimension(200, 40));
-        JLabel label5 = new JLabel("Минимум для распределения");
+        JLabel label5 = new JLabel("Минимум времени обработки");
         label5.setPreferredSize(new Dimension(200, 40));
-        JLabel label6 = new JLabel("Максимум для распределения");
+        JLabel label6 = new JLabel("Максимум времени обработки");
         label6.setPreferredSize(new Dimension(200, 40));
         JLabel label7 = new JLabel("Лямбда для распределения");
         label7.setPreferredSize(new Dimension(200, 40));
