@@ -28,6 +28,7 @@ public class GeneralSystem {
     private double minTime;
     private double maxTime;
     private int bufferSize;
+    private ArrayList<Double> genTime;
 
     public GeneralSystem(int homeDeviceCount,
                          int processingDeviceCount,
@@ -48,10 +49,18 @@ public class GeneralSystem {
         this.companySelectionManager = new CompanySelectionManager(this.buffer, processingDeviceCount, this.minTime, this.maxTime);
         this.companyStagingManager = new CompanyStagingManager(this.buffer, homeDeviceCount, this.lambda, this.statisticController);
         this.actions = new ArrayList<>(homeDeviceCount);
+        this.genTime = new ArrayList<>(homeDeviceCount);
+        double time = 0;
         for (int i = 0; i < homeDeviceCount; i++) {
+            time = companyStagingManager.getHomeDevice(i).getTimeNextHomeRequest();
             actions.add(new Action(ActionType.NEW_REQUEST,
-                        companyStagingManager.getHomeDevice(i).getTimeNextHomeRequest(), i));
+                        time, i));
+            genTime.add(i, time);
         }
+        for (int i = 0; i < homeDeviceCount; i++) {
+            System.out.println("Генератор " + i + ": " + genTime.get(i));
+        }
+        System.out.println("\n");
         actions.sort(Action::compareTo);
     }
 
@@ -70,14 +79,18 @@ public class GeneralSystem {
         this.timeNow = action.getActionTime();
         ActionType actionType = action.getActionType();
         int sourceOrDeviceNum = action.getSourceOrDeviceNum();
+        double refusedTime = 0;
         if (actionType == ActionType.NEW_REQUEST) {
 
             if (statisticController.getCountSubmittedRequest() < statisticController.getCountRequiredRequest()) {
-
+                double time = this.timeNow +
+                        companyStagingManager.getHomeDevice(sourceOrDeviceNum).getTimeNextHomeRequest();
+                genTime.set(sourceOrDeviceNum, time);
+                System.out.println("\n");
                 HomeRequest homeRequest = companyStagingManager.getHomeDevice(sourceOrDeviceNum).getNewHomeRequest(this.timeNow);
                 companyStagingManager.addHomeRequestInBuffer(homeRequest);
-                actions.add(new Action(ActionType.NEW_REQUEST, this.timeNow +
-                        companyStagingManager.getHomeDevice(sourceOrDeviceNum).getTimeNextHomeRequest(), sourceOrDeviceNum));
+                actions.add(new Action(ActionType.NEW_REQUEST, time, sourceOrDeviceNum));
+
                 if (companySelectionManager.findFreeProcessingDevice() != -1) {
                         actions.add(new Action(ActionType.REQUEST_OUT_BUFFER, this.timeNow));
                 }
@@ -107,7 +120,14 @@ public class GeneralSystem {
             actions.add(new Action(ActionType.REQUEST_OUT_BUFFER, this.timeNow));
             actions.sort(Action::compareTo);
         }
+        for (int i = 0; i < homeDeviceCount; i++) {
+            System.out.println("Генератор " + i + ": " + genTime.get(i));
+        }
+        System.out.println("\n");
         return action;
     }
 
+    public double printTime(int i) {
+        return genTime.get(i);
+    }
 }

@@ -93,13 +93,15 @@ public class StepByStepPanel extends JPanel {
 
         }
         graphics.drawString("Время: " + time, 850,70);
+        for (int i = 0; i < generalSystem.getHomeDeviceCount(); i++)
+            graphics.drawString("Генератор " + i + ": " + generalSystem.printTime(i),1000, 90+20*i);
     }
 
     @Override
     public void print(Graphics graphics)
     {
         graphics.setFont(front1);
-        graphics.clearRect(0, 0, 1000, 1000);
+        graphics.clearRect(0, 0, 10000, 10000);
         this.paint(graphics);
         List<ProcessingDevice> d = generalSystem.getCompanySelectionManager().getProcessingDevices();
         Buffer buffer1 = generalSystem.getBuffer();
