@@ -29,6 +29,7 @@ public class GeneralSystem {
     private double maxTime;
     private int bufferSize;
     private ArrayList<Double> genTime;
+    private ArrayList<Double> finishTime;
 
     public GeneralSystem(int homeDeviceCount,
                          int processingDeviceCount,
@@ -50,6 +51,7 @@ public class GeneralSystem {
         this.companyStagingManager = new CompanyStagingManager(this.buffer, homeDeviceCount, this.lambda, this.statisticController);
         this.actions = new ArrayList<>(homeDeviceCount);
         this.genTime = new ArrayList<>(homeDeviceCount);
+        this.finishTime = new ArrayList<>(processingDeviceCount);
         double time = 0;
         for (int i = 0; i < homeDeviceCount; i++) {
             time = companyStagingManager.getHomeDevice(i).getTimeNextHomeRequest();
@@ -57,8 +59,11 @@ public class GeneralSystem {
                         time, i));
             genTime.add(i, time);
         }
-        for (int i = 0; i < homeDeviceCount; i++) {
-            System.out.println("Генератор " + i + ": " + genTime.get(i));
+//        for (int i = 0; i < homeDeviceCount; i++) {
+//            System.out.println("Генератор " + i + ": " + genTime.get(i));
+//        }
+        for (int i = 0; i < processingDeviceCount; i++) {
+            finishTime.add(i, 0.0);
         }
         System.out.println("\n");
         actions.sort(Action::compareTo);
@@ -104,7 +109,9 @@ public class GeneralSystem {
                 ProcessingDevice currentProcessingDevice = companySelectionManager.getProcessingDevice(freeDeviceID);
                 companySelectionManager.getProcessingDevices().set(freeDeviceID, null);
                 HomeRequest homeRequest = companySelectionManager.getHomeRequest(freeDeviceID);
-                actions.add(new Action(ActionType.REQUEST_COMPLETE, this.timeNow + currentProcessingDevice.setHomeRequest(homeRequest, this.timeNow), currentProcessingDevice.getDeviceNum()));
+                double finTime = this.timeNow + currentProcessingDevice.setHomeRequest(homeRequest, this.timeNow);
+                finishTime.set(freeDeviceID, finTime);
+                actions.add(new Action(ActionType.REQUEST_COMPLETE, finTime, currentProcessingDevice.getDeviceNum()));
                 companySelectionManager.getProcessingDevices().set(freeDeviceID, currentProcessingDevice);
                 actions.sort(Action::compareTo);
             }
@@ -116,6 +123,7 @@ public class GeneralSystem {
                     this.timeNow - currentProcessingDevice.getHomeRequestNow().getGeneratedTime(),
                     this.timeNow - currentProcessingDevice.getStartTimeHomeRequest());
             currentProcessingDevice.setHomeRequest(null, 0);
+            finishTime.set(sourceOrDeviceNum,0.0);
             companySelectionManager.getProcessingDevices().set(sourceOrDeviceNum, currentProcessingDevice);
             actions.add(new Action(ActionType.REQUEST_OUT_BUFFER, this.timeNow));
             actions.sort(Action::compareTo);
@@ -127,7 +135,11 @@ public class GeneralSystem {
         return action;
     }
 
-    public double printTime(int i) {
+    public double printGenTime(int i) {
         return genTime.get(i);
+    }
+
+    public double printFinTime(int i) {
+        return finishTime.get(i);
     }
 }
