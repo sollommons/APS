@@ -30,6 +30,8 @@ public class GeneralSystem {
     private int bufferSize;
     private ArrayList<Double> genTime;
     private ArrayList<Double> finishTime;
+    private ArrayList<Integer> allRequests;
+    private ArrayList<Integer> outRequests;
 
     public GeneralSystem(int homeDeviceCount,
                          int processingDeviceCount,
@@ -142,4 +144,24 @@ public class GeneralSystem {
     public double printFinTime(int i) {
         return finishTime.get(i);
     }
+
+    public long getCancelFromHomeDevice (int homeDeviceNum) {
+        return companyStagingManager.getCancelRequest(homeDeviceNum);
+    }
+    public long getAllReqFromDevice (int homeDeviceNum) {
+        return companyStagingManager.getAllRequests(homeDeviceNum);
+    }
+
+    public double getTimeInSystem(int homeDeviceCount){
+        return statisticController.getTimeInSystem(homeDeviceCount);
+    }
+
+    public double getTimeInDevice(int homeDeviceCount) {
+        return statisticController.getTimeInDevice(homeDeviceCount);
+    }
+
+    public double getWorkTime(int processingDeviceCount) {
+        return statisticController.getWorkTime(processingDeviceCount);
+    }
+
 }

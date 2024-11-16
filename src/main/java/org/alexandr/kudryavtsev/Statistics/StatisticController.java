@@ -60,4 +60,23 @@ public class StatisticController {
         this.homeDeviceStatistics.get(homeDeviceNum).addTimeInDevice(timeInDevice);
     };
 
+    public long getHomeDeviceStatCancel(int homeDeviceNum) {
+        return homeDeviceStatistics.get(homeDeviceNum).getCountAllCanceledHomeRequests();
+    }
+
+    public long getHomeDeviceStatAll (int homeDeviceCount) {
+        return homeDeviceStatistics.get(homeDeviceCount).getCountAllGeneratedHomeRequests();
+    }
+
+    public double getTimeInSystem(int homeDeviceCount){
+        return homeDeviceStatistics.get(homeDeviceCount).getTimeInSystem();
+    }
+
+    public double getTimeInDevice(int homeDeviceCount) {
+        return homeDeviceStatistics.get(homeDeviceCount).getTimeInDevice();
+    }
+
+    public double getWorkTime(int processingDeviceCount) {
+        return processingDeviceStatistics.get(processingDeviceCount).getWorkTime();
+    }
 }

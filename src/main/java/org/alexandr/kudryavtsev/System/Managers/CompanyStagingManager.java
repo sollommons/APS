@@ -49,4 +49,23 @@ public class CompanyStagingManager {
         return this.homeDevices.get(i);
     }
 
+    public long getAllRequests(int homeDeviceNum) {
+        return statisticController.getHomeDeviceStatCancel(homeDeviceNum);
+    }
+
+    public long getCancelRequest(int homeDeviceNum) {
+        return statisticController.getHomeDeviceStatAll(homeDeviceNum);
+    }
+
+    public double getTimeInSystem(int homeDeviceCount){
+        return statisticController.getTimeInSystem(homeDeviceCount);
+    }
+
+    public double getTimeInDevice(int homeDeviceCount) {
+        return statisticController.getTimeInDevice(homeDeviceCount);
+    }
+
+    public double getWorkTime(int processingDeviceCount) {
+        return statisticController.getWorkTime(processingDeviceCount);
+    }
 }

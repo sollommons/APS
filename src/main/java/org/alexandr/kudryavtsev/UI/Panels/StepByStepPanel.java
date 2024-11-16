@@ -96,8 +96,12 @@ public class StepByStepPanel extends JPanel {
         for (int i = 0; i < generalSystem.getHomeDeviceCount(); i++)
             graphics.drawString("Генератор " + i + ": " + generalSystem.printGenTime(i),1000, 90+20*i);
         for (int i = 0; i < generalSystem.getProcessingDeviceCount(); i++) {
-            graphics.drawString("Прибор " + i + ": " + generalSystem.printFinTime(i), 1000, 110 +
+            graphics.drawString("Прибор " + i + ": " + generalSystem.printFinTime(i) + "  WorkTime" + generalSystem.getWorkTime(i), 1000, 110 +
                     20*generalSystem.getHomeDeviceCount() + 20*i );
+        }
+        for (int i =0; i <generalSystem.getHomeDeviceCount(); i++) {
+            graphics.drawString("Генератор " + i + "  В = " + generalSystem.getCancelFromHomeDevice(i) + "  О = "+generalSystem.getAllReqFromDevice(i)+  "  Syst: " +
+                    generalSystem.getTimeInSystem(i) + "  Dev = " +generalSystem.getTimeInDevice(i), 1000,130 + 20*generalSystem.getHomeDeviceCount() + 20*generalSystem.getProcessingDeviceCount() + 20*i);
         }
     }
 
